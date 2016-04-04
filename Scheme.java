@@ -7,7 +7,7 @@
       2. ...
       5. Profit!
       *
-      * STACK OF CHOICE: ____ by Clyde ____
+      * STACK OF CHOICE: ALStack by Dorothy Ng
       * b/c ...
       ******************************************************/
 

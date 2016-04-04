@@ -1,52 +1,50 @@
-/*****************************************************
- * class ALStack
- * Implements ADT Stack, generically typed.
- * Uses an ArrayList as underlying container.
- *****************************************************/
+/***********************
+Will implement a stack using ArrayList
+**********************/
 
 import java.util.ArrayList;
 
-
-public class ALStack<T> implements Stack<T> {
-
+public class ALStack<T> implements Stack<T>{
+    
     private ArrayList<T> _stack;
-
-    //constructor
-    public ALStack() { 
-	_stack = new ArrayList<T>();
+    private int _size;
+    
+    public ALStack(){
+	_stack = new ArrayList<T> (42);
+	_size = 0;
+    }
+    
+    public ALStack(int size){
+	_stack = new ArrayList<T> (size);
+	_size = 0;
+    }
+    
+    //Return true if this stack is empty, otherwise false.
+    public boolean isEmpty(){
+	return _size == 0;
     }
 
-    public ALStack( int size ) { 
-	_stack = new ArrayList<T>(size);
+    //Return top element of stack without popping it.
+    public T peek(){
+	if (isEmpty()) return null;
+	return _stack.get(_size-1);
+    }
+    
+    //Pop and return top element of stack.
+    public T pop(){
+	if (isEmpty()) return null;
+	T tmp = this.peek();
+	_stack.set(_size-1,null);
+	_size--;
+	return tmp;
     }
 
-
-    //means of insertion
-    public void push( T s ) {  _stack.add(s);  }
-
-
-    //means of viewing top element without removing
-    public T peek( ) { 
-	T retVal = null;
-	if ( isEmpty() )  return null;
-	retVal = _stack.get( _stack.size()-1 );
-	return retVal;
+    //Push an element onto top of this stack.
+    public void push( T x ){
+	_stack.add(x);
+	_size++;
     }
-
-
-    //means of removal
-    public T pop( ) { 
-	T retVal = null;
-	if ( isEmpty() )  return null;
-	retVal = _stack.remove( _stack.size()-1 );
-	return retVal;
-    }
-
-
-    //chk for emptiness
-    public boolean isEmpty() { return _stack.size() == 0;  }
-
-
+    
     //main method for testing
     public static void main( String[] args ) {
 
