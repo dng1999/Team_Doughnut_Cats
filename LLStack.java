@@ -1,3 +1,10 @@
+/*
+  Team Doughnut Cats -- Andrea Ma, Dorothy Ng
+  APCS2 pd10
+  HW23 -- Leon Leonwood Stack
+  2016-04-01
+ */
+
 /*****************************************************
  * class LLStack
  * Implements ADT stack as specified in local Stack.java
