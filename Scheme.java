@@ -43,7 +43,7 @@ public class Scheme {
      *           Returns the result of operating on sequence of operands.
      *           Ops: + is 1, - is 2, * is 3
      ******************************************************/
-    public static String unload( int op, Stack<String> numbers ) 
+    public static String unload( int op, ALStack<String>  numbers ) 
     {
     }//end unload()
 
