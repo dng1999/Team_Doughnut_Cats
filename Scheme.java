@@ -3,22 +3,23 @@
  * Simulates a rudimentary Scheme interpreter
  *
  * ALGORITHM for EVALUATING A SCHEME EXPRESSION:
-      1. Steal underpants.
-      2. ...
-      5. Profit!
       *
       * STACK OF CHOICE: ALStack by Dorothy Ng
       * b/c ...
+
+1. Use a function similar to allMatched to determine the parts of each operation, 
+with opening brackets starting the operation, and closing brackets ending the operation.
+
+2. The characters inside the brackets are separated using whitespace,
+and we will have a function to parse the code and determine which characters are useful,
+and where each character separates from the next.
+
+3. Once inside an opening bracket,
+we will store the prefix operator to be used once we determine the operands.
+
+4. After storing the operator, we will store the operands,
+and rearrange the sequence so that the function can be performed in valid Java syntax.
       ******************************************************/
-      
-/*
-1. Use a function similar to allMatched to determine the parts of each operation, with opening brackets starting the oper\
-ation, and closing brackets ending the operation.
-2. The characters inside the brackets are separated using whitespace, and we will have a function to parse the code and d\
-etermine which characters are useful, and where each character separates from the next.
-3. Once inside an opening bracket, we will store the prefix operator to be used once we determine the operands.
-4. After storing the operator, we will store the operands, and rearrange the sequence so that the function can be perform\
-ed in valid Java syntax.
       
 public class Scheme {
 
