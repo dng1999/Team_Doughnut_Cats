@@ -34,6 +34,29 @@ public class Scheme {
      ******************************************************/
     public static String evaluate( String expr ) 
     {
+    	for (int i=2; i<expr.length(); i++) {
+    		String curr = expr.substring(i,i+1);
+    		String java = "";
+    		String op = "";
+    		String nums = ""
+    		if (Character.isNumber(curr)) {
+    			if (Character.isNumber(expr.substring(i+1,i+2))) {
+    				nums += expr.substring(i,i+2) + " ";
+    			}
+    			else {
+    				nums += curr + " ";    				
+    			}
+    		}
+    		else if (curr=="+"||curr=="-"||curr=="*"||curr=="/") {
+    			op += curr + " ";
+    		}
+    		else if (curr=="(") {
+    			int index = i;
+    			while (expr.substring(index,index+1)!=")") {
+    				index++
+    			}
+    			nums += evaluate(expr.substring(i,index)) + " ";
+    		}
     }//end evaluate()
     
     public static boolean allMatched( String s )
