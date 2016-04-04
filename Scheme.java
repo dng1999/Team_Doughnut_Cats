@@ -35,6 +35,25 @@ public class Scheme {
     public static String evaluate( String expr ) 
     {
     }//end evaluate()
+    
+    public static boolean allMatched( String s )
+    {
+        boolean ret = true;
+        String bracket = "";
+        Latkes open = new Latkes(s.length()/2);
+        for (int i=0; i<s.length(); i++) {
+            bracket = s.substring(i,i+1);
+            if (bracket=="(") {
+                open.push(bracket);
+            }
+            else {
+                if (open.pop()!="(") {
+                    ret = false;
+                }
+            }
+        }
+        return ret;
+    }//end allMatched()
 
 
     /****************************************************** 
