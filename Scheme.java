@@ -1,3 +1,10 @@
+/*
+  Team Doughnut Cats - Andrea Ma, Dorothy Ng
+  APCS2 pd10
+  HW24 -- Schemin
+  2016-04-03
+*/
+
 /*****************************************************
  * class Scheme
  * Simulates a rudimentary Scheme interpreter
@@ -34,50 +41,64 @@ public class Scheme {
      ******************************************************/
     public static String evaluate( String expr ) 
     {
-    	for (int i=2; i<expr.length(); i++) {
-    		String curr = expr.substring(i,i+1);
-    		String java = "";
-    		String op = "";
-    		String nums = ""
-    		if (Character.isNumber(curr)) {
-    			if (Character.isNumber(expr.substring(i+1,i+2))) {
-    				nums += expr.substring(i,i+2) + " ";
-    			}
-    			else {
-    				nums += curr + " ";    				
-    			}
-    		}
-    		else if (curr=="+"||curr=="-"||curr=="*"||curr=="/") {
-    			op += curr + " ";
-    		}
-    		else if (curr=="(") {
-    			int index = i;
-    			while (expr.substring(index,index+1)!=")") {
-    				index++
-    			}
-    			nums += evaluate(expr.substring(i,index)) + " ";
-    		}
+	if (isNumber(expr)) return expr;
+	else {
+	    ALStack<Integer> groupPos = findGroup(expr);
+	    Integer end = groupPos.pop();
+	    Integer start = groupPos.pop();
+	    String group = expr.substring(start+2,end); //extract op and num only
+
+	    //find op
+	    int op = 0;
+	    String opS = group.substring(0,1);
+	    if (opS.equals("*")) op=3;
+	    else if (opS.equals("-")) op=2;
+	    else if (opS.equals("+")) op=1;
+
+	    //find nums
+	    ALStack<String> numbers = new ALStack<String>();
+	    String num = "";
+	    for (int i=2;i<group.length();i++){ //start from number
+		if (group.substring(i,i+1).equals(" ")){
+		    numbers.push(num);
+		    num = "";
+		}
+		else {
+		    num += group.substring(i,i+1);
+		}
+	    }
+
+	    //evaluate the group
+	    group = unload(op,numbers);
+	    
+	    //update Scheme operation
+	    String ret = expr.substring(0,start);
+	    ret += group;
+	    ret += expr.substring(end+1,expr.length());
+	    System.out.println(ret);
+	    return evaluate(ret);
+	}
     }//end evaluate()
     
-    public static boolean allMatched( String s )
+    //Find the first innermost group
+    public static ALStack<Integer> findGroup( String s )
     {
-        boolean ret = true;
+	ALStack<Integer> ret = new ALStack<Integer>(); //stores pos of brackets
         String bracket = "";
-        Latkes open = new Latkes(s.length()/2);
+        ALStack<Integer> open = new ALStack<Integer>();
         for (int i=0; i<s.length(); i++) {
             bracket = s.substring(i,i+1);
-            if (bracket=="(") {
-                open.push(bracket);
+            if (bracket.equals("(")) {
+                open.push(i);
             }
-            else {
-                if (open.pop()!="(") {
-                    ret = false;
-                }
-            }
-        }
+            else if (bracket.equals(")")) {
+		ret.push(open.pop());
+		ret.push(i);
+		return ret;
+	    }
+	}
         return ret;
     }//end allMatched()
-
 
     /****************************************************** 
      * precond:  Assumes top of input stack is a number.
@@ -87,10 +108,39 @@ public class Scheme {
      ******************************************************/
     public static String unload( int op, ALStack<String>  numbers ) 
     {
+	int result = 0;
+        if (op == 3) {
+	    Integer num = new Integer (numbers.pop());
+	    result = num;
+	    while (numbers.isEmpty()!=true){
+                num = num.parseInt(numbers.pop());
+		result *= num;
+            }
+        }
+        else if (op == 2){
+	    ALStack<String> rev = new ALStack<String> ();
+	    while (numbers.isEmpty()!=true){
+		rev.push(numbers.pop());
+	    }
+	    Integer num = new Integer (rev.pop());
+	    result = num;
+	    while (rev.isEmpty()!=true){ 
+		num = num.parseInt(rev.pop());
+		result -= num;
+            }
+        }
+        else if (op == 1){
+	    Integer num = new Integer (numbers.pop());
+	    result = num;
+	    while (numbers.isEmpty()!=true){
+		num = num.parseInt(numbers.pop());
+		result += num;
+            }
+        }
+	return result+"";
     }//end unload()
+    
 
-
-    /*
     //optional check-to-see-if-its-a-number helper fxn:
     public static boolean isNumber( String s ) {
         try {
@@ -101,13 +151,10 @@ public class Scheme {
 	    return false;
 	    }
     }
-    */
-
 
     //main method for testing
     public static void main( String[] args ) {
 
-	/*v~~~~~~~~~~~~~~MAKE MORE~~~~~~~~~~~~~~v
 	  String zoo1 = "( + 4 3 )";
 	  System.out.println(zoo1);
 	  System.out.println("zoo1 eval'd: " + evaluate(zoo1) );
@@ -127,6 +174,7 @@ public class Scheme {
 	  System.out.println(zoo4);
 	  System.out.println("zoo4 eval'd: " + evaluate(zoo4) );
 	  //...-4
+	/*v~~~~~~~~~~~~~~MAKE MORE~~~~~~~~~~~~~~v
           ^~~~~~~~~~~~~~~~AWESOME~~~~~~~~~~~~~~~^*/
     }//main
 

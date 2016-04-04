@@ -18,7 +18,7 @@ public class ALStack<T> implements Stack<T>{
 	_stack = new ArrayList<T> (size);
 	_size = 0;
     }
-    
+
     //Return true if this stack is empty, otherwise false.
     public boolean isEmpty(){
 	return _size == 0;
